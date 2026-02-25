@@ -36,4 +36,53 @@ Each file is represented by an inode containing:
 - File size metadata
 - Block usage tracking
 
-Maximum file size:
+Maximum file size: (3 + block_size + block_size²) × block_size
+
+### Allocation Strategy
+- Direct blocks used first
+- Then single-indirect indexing
+- Then double-indirect indexing
+- Manual block zeroing and cleanup
+- Full deallocation on file deletion
+
+---
+
+## Implemented Commands
+
+| Command | Operation |
+|---------|-----------|
+| Format  | Initialize disk with block size |
+| Create  | Create new file |
+| Open    | Open file (returns FD) |
+| Close   | Close file |
+| Write   | Write buffer into file |
+| Read    | Read file contents |
+| Delete  | Remove file and free blocks |
+| Copy    | Duplicate file |
+| Rename  | Rename file |
+
+---
+
+## Key System Concepts Demonstrated
+
+- Inode-based file system design
+- Indexed block allocation
+- Free-space management (BitVector)
+- Manual disk I/O using `fseek`, `fread`, `fwrite`
+- File descriptor lifecycle management
+- Resource cleanup and memory handling
+- Hierarchical block indexing (direct / single / double)
+
+---
+
+## Build
+
+```bash
+g++ main.cpp -o filesystem
+```
+
+## Run
+
+```bash
+./filesystem
+```
